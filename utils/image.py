@@ -3,7 +3,6 @@ import matplotlib.animation as animation
 import matplotlib.image as mpimg
 import io
 import base64
-from IPython.display import HTML
 
 def video_from_imgs(img_files, video_file, fps):
     fig = plt.figure()
