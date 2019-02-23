@@ -61,7 +61,7 @@ class DCGAN():
         model.add(BatchNormalization(momentum=0.8))
         model.add(Activation("relu"))
         model.add(UpSampling2D())
-        model.add(Conv2D(64, kernel_size=3, padding="same"))
+        model.add(Conv2D(64, kernel_size=5, padding="same"))
         model.add(BatchNormalization(momentum=0.8))
         model.add(Activation("relu"))
         model.add(Conv2D(self.channels, kernel_size=3, padding="same"))
@@ -81,12 +81,12 @@ class DCGAN():
         model.add(Conv2D(32, kernel_size=3, strides=2, input_shape=self.img_shape, padding="same"))
         model.add(LeakyReLU(alpha=0.2))
         model.add(Dropout(0.25))
-        model.add(Conv2D(64, kernel_size=3, strides=2, padding="same"))
+        model.add(Conv2D(64, kernel_size=5, strides=2, padding="same"))
         model.add(ZeroPadding2D(padding=((0,1),(0,1))))
         model.add(BatchNormalization(momentum=0.8))
         model.add(LeakyReLU(alpha=0.2))
         model.add(Dropout(0.25))
-        model.add(Conv2D(128, kernel_size=3, strides=2, padding="same"))
+        model.add(Conv2D(128, kernel_size=5, strides=2, padding="same"))
         model.add(BatchNormalization(momentum=0.8))
         model.add(LeakyReLU(alpha=0.2))
         model.add(Dropout(0.25))
@@ -95,6 +95,7 @@ class DCGAN():
         model.add(LeakyReLU(alpha=0.2))
         model.add(Dropout(0.25))
         model.add(Flatten())
+        model.add(Dense(50, activation="relu", input_dim=self.latent_dim))
         model.add(Dense(20, activation="relu", input_dim=self.latent_dim))
 
         model.add(Dense(1, activation='sigmoid'))
@@ -152,8 +153,8 @@ class DCGAN():
             # If at save interval => save generated image samples
             if epoch % save_interval == 0:
                 self.save_imgs(epoch)
-        self.generator.save('./saved_model/gen.5h')
-        self.discriminator.save('./saved_model/dis.5h')
+        generator.save('./saved_model/gen.sh')
+        discriminator.save('./saved_model/dis.sh')
         
 
     def save_imgs(self, epoch):
@@ -177,4 +178,4 @@ class DCGAN():
 
 if __name__ == '__main__':
     dcgan = DCGAN()
-    dcgan.train(epochs=15000, batch_size=12, save_interval=50)
+    dcgan.train(epochs=50000, batch_size=12, save_interval=500)
