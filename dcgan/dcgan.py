@@ -177,4 +177,4 @@ class DCGAN():
 
 if __name__ == '__main__':
     dcgan = DCGAN()
-    dcgan.train(epochs=10000, batch_size=12, save_interval=50)
+    dcgan.train(epochs=15000, batch_size=12, save_interval=50)
