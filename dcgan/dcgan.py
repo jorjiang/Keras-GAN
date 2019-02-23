@@ -9,9 +9,7 @@ from keras.models import Sequential, Model
 from keras.optimizers import Adam
 from sklearn.externals.joblib import load
 import matplotlib.pyplot as plt
-import cv2
 
-import sys
 
 import numpy as np
 
@@ -86,7 +84,7 @@ class DCGAN():
         model.add(BatchNormalization(momentum=0.8))
         model.add(LeakyReLU(alpha=0.2))
         model.add(Dropout(0.25))
-        model.add(Conv2D(128, kernel_size=5, strides=2, padding="same"))
+        model.add(Conv2D(128, kernel_size=3, strides=2, padding="same"))
         model.add(BatchNormalization(momentum=0.8))
         model.add(LeakyReLU(alpha=0.2))
         model.add(Dropout(0.25))
@@ -153,8 +151,10 @@ class DCGAN():
             # If at save interval => save generated image samples
             if epoch % save_interval == 0:
                 self.save_imgs(epoch)
-        generator.save('./saved_model/gen.sh')
-        discriminator.save('./saved_model/dis.sh')
+
+            if epoch % 10000 == 0:
+                self.generator.save('./saved_model/gen_{}.5h'.format(epoch // 10000))
+                self.discriminator.save('./saved_model/dis_{}.5h'.format(epoch // 10000))
         
 
     def save_imgs(self, epoch):
