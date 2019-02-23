@@ -4,9 +4,10 @@ import io
 import matplotlib.animation as animation
 import matplotlib.image as mpimg
 import matplotlib.pyplot as plt
-
-
-def video_from_imgs(img_files, video_file, fps):
+import os
+def video_from_imgs(img_folder, video_file, fps):
+    img_file_list = [f for f in os.listdir(img_folder) if '.png' in f]
+    img_files = [os.path.join(img_folder, img_file) for img_file in sorted(img_file_list)]
     fig = plt.figure()
     myimages = []
 
