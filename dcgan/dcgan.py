@@ -152,8 +152,8 @@ class DCGAN():
             # If at save interval => save generated image samples
             if epoch % save_interval == 0:
                 self.save_imgs(epoch)
-        generator.save('./saved_model/gen.sh')
-        discriminator.save('./saved_model/dis.sh')
+        self.generator.save('./saved_model/gen.5h')
+        self.discriminator.save('./saved_model/dis.5h')
         
 
     def save_imgs(self, epoch):
