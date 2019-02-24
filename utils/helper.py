@@ -1,5 +1,7 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 
+from typing import Optional
+
 import numpy as np
 import tensorflow as tf
 from IPython.display import display, HTML
@@ -51,15 +53,15 @@ def show_graph(graph_def, max_const_size=32):
 
 def random_walk_space(dim: int, step_length: int,
                       length: int,
-                      prob_change: float, restrict=True) -> np.ndarray:
+                      prob_change: float, restrict: Optional[int] = None) -> np.ndarray:
     position = np.random.normal(0, 1, dim)
     direction = np.random.choice([1, 0, -1], dim)
     path = []
     for i in range(length):
         if np.random.uniform(0,1) < prob_change:
             direction = np.random.choice([1, 0, -1], dim)
-        if restrict:
-            direction = np.where(abs(position)>3, -direction, direction)
+        if restrict is not None:
+            direction = np.where(abs(position)>restrict, -direction, direction)
         position = position + step_length * direction
         path.append(position)
     return np.vstack(path)
