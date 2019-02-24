@@ -7,7 +7,8 @@ import matplotlib.image as mpimg
 import matplotlib.pyplot as plt
 import numpy as np
 from keras.engine.training import Model
-
+import cv2
+from glob import glob
 
 def video_from_imgs(img_folder, video_file, fps):
     img_file_list = [f for f in os.listdir(img_folder) if '.png' in f]
@@ -55,3 +56,11 @@ def create_video_from_model(model: Model, noises: np.ndarray,
 
     ani = animation.ArtistAnimation(fig, myimages)
     ani.save(video_file, fps=fps)
+
+def resize_images(img_folder: str,
+                  m: int, n: int, img_type: str='png'):
+    imgs = [cv2.imread(file)
+            for file in glob('{}/*.{}'.format(img_folder, img_type))]
+
+    imgs_resize = [cv2.resize(img, (150, 150)) for img in imgs]
+    return imgs_resize
