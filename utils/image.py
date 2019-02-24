@@ -1,12 +1,13 @@
 import base64
 import io
-import cv2
+import os
+
 import matplotlib.animation as animation
 import matplotlib.image as mpimg
 import matplotlib.pyplot as plt
-import os
-from keras.engine.training import Model
 import numpy as np
+from keras.engine.training import Model
+
 
 def video_from_imgs(img_folder, video_file, fps):
     img_file_list = [f for f in os.listdir(img_folder) if '.png' in f]
@@ -31,11 +32,12 @@ def play_video_html(video_file_name):
                  </video>'''.format(encoded.decode('ascii'))
     return data
 
+
 def create_imgs_from_model(model: Model, noises: np.ndarray, img_folder: str):
     os.makedirs(img_folder, exist_ok=True)
     imgs = model.predict(noises)
+    imgs = imgs * 0.5 + 0.5
     for i, img in enumerate(imgs):
         file_name = "{}.png".format(str(i).zfill(6))
         file_path = os.path.join(img_folder, file_name)
-        cv2.imwrite(file_path, img)
-
+        plt.imsave(file_path, img)
