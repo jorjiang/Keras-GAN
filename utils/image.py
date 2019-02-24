@@ -41,3 +41,17 @@ def create_imgs_from_model(model: Model, noises: np.ndarray, img_folder: str):
         file_name = "{}.png".format(str(i).zfill(6))
         file_path = os.path.join(img_folder, file_name)
         plt.imsave(file_path, img)
+
+def create_video_from_model(model: Model, noises: np.ndarray,
+                            video_file: str, fps: int):
+
+    imgs = model.predict(noises)
+    imgs = imgs * 0.5 + 0.5
+    fig = plt.figure()
+    myimages = []
+    for img in imgs:
+        imgplot = plt.imshow(img, animated=True);
+        myimages.append([imgplot])
+
+    ani = animation.ArtistAnimation(fig, myimages)
+    ani.save(video_file, fps=fps)
