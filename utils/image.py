@@ -32,6 +32,7 @@ def play_video_html(video_file_name):
     return data
 
 def create_imgs_from_model(model: Model, noises: np.ndarray, img_folder: str):
+    os.makedirs(img_folder, exist_ok=True)
     for i, noise in enumerate(noises):
         img = model.predict(noise)
         file_name = "{}.png".format(str(i).zfill(6))
