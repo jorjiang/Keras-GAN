@@ -51,13 +51,15 @@ def show_graph(graph_def, max_const_size=32):
 
 def random_walk_space(dim: int, step_length: int,
                       length: int,
-                      prob_change: float) -> np.ndarray:
+                      prob_change: float, restrict=True) -> np.ndarray:
     position = np.random.normal(0, 1, dim)
     direction = np.random.choice([1, 0, -1], dim)
     path = []
     for i in range(length):
         if np.random.uniform(0,1) < prob_change:
             direction = np.random.choice([1, 0, -1], dim)
+        if restrict:
+            direction = np.where(position>3, -1, direction)
         position = position + step_length * direction
         path.append(position)
     return np.vstack(path)
