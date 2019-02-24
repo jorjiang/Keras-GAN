@@ -50,7 +50,7 @@ def create_video_from_model(model: Model, noises: np.ndarray,
     fig = plt.figure()
     myimages = []
     for img in imgs:
-        imgplot = plt.imshow(img, animated=True);
+        imgplot = plt.imshow(img, animated=True)
         myimages.append([imgplot])
 
     ani = animation.ArtistAnimation(fig, myimages)
