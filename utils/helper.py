@@ -52,7 +52,7 @@ def show_graph(graph_def, max_const_size=32):
 def random_walk_space(dim: int, step_length: int,
                       length: int,
                       prob_change: float) -> np.ndarray:
-    position = np.random.normal(0, 1, 180)
+    position = np.random.normal(0, 1, dim)
     direction = np.random.choice([1, 0], dim)
     path = []
     for i in range(length):
