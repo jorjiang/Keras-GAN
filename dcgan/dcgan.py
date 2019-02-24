@@ -20,7 +20,7 @@ class DCGAN():
         self.img_cols = 72
         self.channels = 1
         self.img_shape = (self.img_rows, self.img_cols, self.channels)
-        self.latent_dim = 72
+        self.latent_dim = 150
 
         optimizer = Adam(0.0002, 0.5)
 
