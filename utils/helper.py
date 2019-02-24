@@ -1,30 +1,30 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 
-# This module defines the show_graph() function to visualize a TensorFlow graph within Jupyter.
+import numpy as np
+import tensorflow as tf
+from IPython.display import display, HTML
 
+
+# This module defines the show_graph() function to visualize a TensorFlow graph within Jupyter.
 # As far as I can tell, this code was originally written by Alex Mordvintsev at:
 # https://github.com/tensorflow/tensorflow/blob/master/tensorflow/examples/tutorials/deepdream/deepdream.ipynb
-
 # The original code only worked on Chrome (because of the use of <link rel="import"...>, but the version below
 # uses Polyfill (copied from this StackOverflow answer: https://stackoverflow.com/a/41463991/38626)
 # so that it can work on other browsers as well.
-
-import numpy as np
-import tensorflow as tf
-from IPython.display import clear_output, Image, display, HTML
 
 def strip_consts(graph_def, max_const_size=32):
     """Strip large constant values from graph_def."""
     strip_def = tf.GraphDef()
     for n0 in graph_def.node:
-        n = strip_def.node.add() 
+        n = strip_def.node.add()
         n.MergeFrom(n0)
         if n.op == 'Const':
             tensor = n.attr['value'].tensor
             size = len(tensor.tensor_content)
             if size > max_const_size:
-                tensor.tensor_content = b"<stripped %d bytes>"%size
+                tensor.tensor_content = b"<stripped %d bytes>" % size
     return strip_def
+
 
 def show_graph(graph_def, max_const_size=32):
     """Visualize TensorFlow graph."""
@@ -42,9 +42,22 @@ def show_graph(graph_def, max_const_size=32):
         <div style="height:600px">
           <tf-graph-basic id="{id}"></tf-graph-basic>
         </div>
-    """.format(data=repr(str(strip_def)), id='graph'+str(np.random.rand()))
+    """.format(data=repr(str(strip_def)), id='graph' + str(np.random.rand()))
 
     iframe = """
         <iframe seamless style="width:1200px;height:620px;border:0" srcdoc="{}"></iframe>
     """.format(code.replace('"', '&quot;'))
     display(HTML(iframe))
+
+def random_walk_space(dim: int, step_length: int,
+                      length: int,
+                      prob_change: float) -> np.ndarray:
+    position = np.random.normal(0, 1, 180)
+    direction = np.random.choice([1, 0], dim)
+    path = []
+    for i in range(length):
+        if np.random.uniform(0,1) < prob_change:
+            direction = np.random.choice([1, 0], dim)
+        position = position + step_length * direction
+        path.append(position)
+    return np.vstack(path)
