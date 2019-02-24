@@ -53,11 +53,11 @@ def random_walk_space(dim: int, step_length: int,
                       length: int,
                       prob_change: float) -> np.ndarray:
     position = np.random.normal(0, 1, dim)
-    direction = np.random.choice([1, 0], dim)
+    direction = np.random.choice([1, 0, -1], dim)
     path = []
     for i in range(length):
         if np.random.uniform(0,1) < prob_change:
-            direction = np.random.choice([1, 0], dim)
+            direction = np.random.choice([1, 0, -1], dim)
         position = position + step_length * direction
         path.append(position)
     return np.vstack(path)
