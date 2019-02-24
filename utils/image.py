@@ -63,4 +63,4 @@ def resize_images(img_folder: str,
             for file in glob('{}/*.{}'.format(img_folder, img_type))]
 
     imgs_resize = [cv2.resize(img, (m, n)) for img in imgs]
-    return imgs_resize
+    return np.array(imgs_resize)
